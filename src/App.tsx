@@ -3,6 +3,22 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
+function GetTestValue(key: string) {
+  const errMsg = `Unable to get environment value for key [${key}]`;
+  if (window == undefined) {
+    return errMsg;
+  }
+
+  if ((window as any)["_env_"] == undefined) {
+    return errMsg;
+  }
+
+  if ((window as any)["_env_"][key] == undefined) {
+    return errMsg;
+  }
+
+  return (window as any)["_env_"][key];
+}
 function App() {
   const [count, setCount] = useState(0);
 
@@ -18,7 +34,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <p>TEST_SETTING: {(window as any)._env_.TEST_SETTING}</p>
+        <p>TEST_SETTING: {GetTestValue("TEST_SETTING")}</p>
 
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
